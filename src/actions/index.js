@@ -13,10 +13,14 @@ export const FAILURE = 'FAILURE'
 export const getCharsSuccess = apiData => {
   return {type: SUCCESS, characters: apiData}
 }
+export const getCharsFailure = error => {
+  return {type: FAILURE, error: error.message}
+}
 
 export const getChars = () => dispatch => {
   dispatch({ type: FETCHING });
   axios
     .get('https://swapi.co/api/people/')
     .then(res => dispatch(getCharsSuccess(res.data.results)))
+    .catch(err => dispatch(getCharsFailure(err)));
 }
